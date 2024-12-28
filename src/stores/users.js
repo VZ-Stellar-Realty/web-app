@@ -16,10 +16,10 @@ export const useUsersStore = defineStore('users', () => {
   // Retrieve Users
   async function getUsersTable({ page, itemsPerPage }) {
     const {
-      data: { users, total }
+      data: { users, total },
     } = await supabaseAdmin.auth.admin.listUsers({
       page: page,
-      perPage: itemsPerPage
+      perPage: itemsPerPage,
     })
 
     // Set the retrieved data to state
@@ -36,7 +36,7 @@ export const useUsersStore = defineStore('users', () => {
       email: formData.email,
       email_confirm: true,
       password: formData.password,
-      user_metadata: { ...userMetadata, branch: branch.toString() }
+      user_metadata: { ...userMetadata, branch: branch.toString() },
     })
   }
 
@@ -46,7 +46,7 @@ export const useUsersStore = defineStore('users', () => {
     const { email, password, branch, ...userMetadata } = formData
 
     return await supabaseAdmin.auth.admin.updateUserById(formData.id, {
-      user_metadata: { ...userMetadata, branch: branch.toString() }
+      user_metadata: { ...userMetadata, branch: branch.toString() },
     })
   }
 
