@@ -2,7 +2,7 @@
 import AppLayout from '@/components/layout/AppLayout.vue'
 import LoginForm from '@/components/auth/LoginForm.vue'
 import { useDisplay } from 'vuetify'
-import RealestateIcon2 from '@/components/icons/RealestateIcon2.vue'
+import RealestateIcon1 from '@/components/icons/RealestateIcon1.vue'
 
 const { mobile } = useDisplay()
 </script>
@@ -20,7 +20,7 @@ const { mobile } = useDisplay()
                   height="620px"
                   elevation="15"
                 >
-                  <RealestateIcon2 />
+                  <RealestateIcon1 />
                 </v-card>
               </v-col>
 
