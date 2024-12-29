@@ -9,7 +9,9 @@
           finding your <br class="d-lg-none d-md-none" /><span>perfect home</span><br />
           here in Butuan.
         </h1>
-        <button @click="navigateToLogin" class="mt-2 mx-auto mx-lg-0">Get Started</button>
+        <router-link to="/login">
+          <button class="mt-2 mx-auto mx-lg-0">Get Started</button>
+        </router-link>
       </div>
     </div>
   </div>
