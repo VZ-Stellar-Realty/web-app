@@ -12,11 +12,13 @@ export const routes = [
     path: '/',
     name: 'landing',
     component: LandingView,
+    meta: { requiresAuth: false },
   },
   {
     path: '/home',
     name: 'home',
     component: HomeView,
+    meta: { requiresAuth: true, isDefault: true },
   },
 
   // Auth Routes
@@ -24,10 +26,12 @@ export const routes = [
     path: '/login',
     name: 'login',
     component: LoginView,
+    meta: { requiresAuth: false },
   },
   {
     path: '/register',
     name: 'register',
     component: RegisterView,
+    meta: { requiresAuth: false },
   },
 ]

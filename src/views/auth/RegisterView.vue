@@ -49,9 +49,9 @@ provideVideo()
 <style scoped>
 .register-form {
   /* From https://css.glass */
-  background: rgba(26, 34, 126, 0.35);
-  backdrop-filter: blur(8.1px);
-  -webkit-backdrop-filter: blur(8.1px);
+  background: rgba(26, 34, 126, 0.34);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   /* border: 1px solid rgba(26, 35, 126, 0.3); */
 }
 </style>

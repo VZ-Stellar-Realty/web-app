@@ -10,13 +10,13 @@ export function useLogin() {
   // Load Variables
   const formDataDefault = {
     email: '',
-    password: ''
+    password: '',
   }
   const formData = ref({
-    ...formDataDefault
+    ...formDataDefault,
   })
   const formAction = ref({
-    ...formActionDefault
+    ...formActionDefault,
   })
   const refVForm = ref()
 
@@ -26,7 +26,7 @@ export function useLogin() {
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email: formData.value.email,
-      password: formData.value.password
+      password: formData.value.password,
     })
 
     if (error) {
@@ -36,8 +36,8 @@ export function useLogin() {
     } else if (data) {
       // Add Success Message
       formAction.value.formSuccessMessage = 'Successfully Logged Account.'
-      // Redirect Acct to Dashboard
-      router.replace('/dashboard')
+      // Redirect to Home Page
+      router.replace('/home')
     }
 
     // Reset Form
