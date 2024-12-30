@@ -16,7 +16,7 @@ const isPasswordVisible = ref(false)
     <v-row dense>
       <v-col cols="12" class="text-center">
         <h4 class="text-h5 mb-1">Welcome Back! 👋🏻</h4>
-        <p class="mb-1">Please log-in to your account and start</p>
+        <p class="mb-1">Please fill in the form to log in to your account</p>
       </v-col>
 
       <v-col cols="12">
@@ -64,6 +64,7 @@ const isPasswordVisible = ref(false)
       class="mt-2 text-white login-btn"
       type="submit"
       color="#dfad03"
+      prepend-icon="mdi-login"
       :disabled="formAction.formProcess"
       :loading="formAction.formProcess"
       block
@@ -104,9 +105,9 @@ const isPasswordVisible = ref(false)
 
     <v-card-text class="text-center mt-3">
       <span class="text-center font-weight-light"> Don't have an account? </span>
-      <span class="text-color text-decoration-none cursor-pointer" @click="switchToRegister">
-        Register
-      </span>
+      <router-link to="/register" class="text-decoration-none">
+        <span class="text-color text-decoration-none cursor-pointer"> Create an account </span>
+      </router-link>
     </v-card-text>
   </v-form>
 </template>
