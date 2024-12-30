@@ -2,6 +2,7 @@ import '@mdi/font/css/materialdesignicons.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { provideVideo } from '@/composables/useVideo'
 
 // Vuetify
 import 'vuetify/styles'
@@ -22,5 +23,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
+
+provideVideo()
 
 app.mount('#app')

@@ -1,7 +1,13 @@
-<script setup></script>
+<script setup>
+import VideoBackground from '@/components/common/VideoBackground.vue'
+import { provideVideo } from '@/composables/useVideo'
+
+provideVideo()
+</script>
 
 <template>
-  <div>
+  <div class="index-page">
+    <VideoBackground />
     <div class="overlay">
       <div class="content mt-5 text-center text-lg-start">
         <h1 class="intro pt-5 mt-5">

@@ -3,13 +3,18 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import LoginForm from '@/components/auth/LoginForm.vue'
 import { useDisplay } from 'vuetify'
 import RealestateIcon1 from '@/components/icons/RealestateIcon1.vue'
+import VideoBackground from '@/components/common/VideoBackground.vue'
+import { provideVideo } from '@/composables/useVideo'
 
 const { mobile } = useDisplay()
+
+provideVideo()
 </script>
 
 <template>
   <AppLayout :is-with-app-bar-nav-icon="false">
     <template #content>
+      <VideoBackground />
       <v-container>
         <v-row align="center" justify="center" class="h-screen">
           <v-col cols="11">
@@ -44,7 +49,7 @@ const { mobile } = useDisplay()
 <style scoped>
 .login-form {
   /* From https://css.glass */
-  background: rgba(26, 34, 126, 0.144);
+  background: rgba(26, 34, 126, 0.527);
   backdrop-filter: blur(8.1px);
   -webkit-backdrop-filter: blur(8.1px);
   /* border: 1px solid rgba(26, 35, 126, 0.3); */
