@@ -36,6 +36,7 @@ export function useLogin() {
     } else if (data) {
       // Add Success Message
       formAction.value.formSuccessMessage = 'Successfully Logged Account.'
+
       // Redirect to Home Page
       router.replace('/home')
     }
