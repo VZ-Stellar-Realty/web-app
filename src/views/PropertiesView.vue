@@ -1,7 +1,5 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
-    <div>property</div>
+  <div>Home</div>
 </template>

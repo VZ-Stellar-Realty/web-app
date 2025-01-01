@@ -5,28 +5,27 @@ import { onMounted, ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useRoute, useRouter } from 'vue-router'
 import logoNav from '@/assets/images/logo-nav.png'
+import { useThemeStore } from '@/stores/themeStore'
 
 const props = defineProps(['isWithAppBarNavIcon'])
 
-const emit = defineEmits(['isDrawerVisible', 'theme'])
+const emit = defineEmits(['isDrawerVisible'])
 
 // Utilize pre-defined vue functions
 const { xs, sm, mobile } = useDisplay()
 
 // Use Pinia Store
 const authStore = useAuthUserStore()
+const themeStore = useThemeStore()
 
 // Load Variables
 const isLoggedIn = ref(false)
 const isMobileLogged = ref(false)
 const isDesktop = ref(false)
-const theme = ref(localStorage.getItem('theme') ?? 'light')
 
 //  Toggle Theme
 const onToggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
-  localStorage.setItem('theme', theme.value)
-  emit('theme', theme.value)
+  themeStore.toggleTheme()
 }
 
 // Load Functions during component rendering
@@ -66,17 +65,17 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
 
 <template>
   <v-responsive>
-    <v-app :theme="theme">
+    <v-app :theme="themeStore.theme">
       <v-app-bar
         v-if="!isAuthPage && isLoggedIn"
         class="px-5"
-        :color="theme === 'light' ? 'red-lighten-2' : 'red-darken-4'"
+        :color="themeStore.theme === 'light' ? 'yellow-lighten-3 ' : 'indigo-darken-1'"
         border
       >
         <v-app-bar-nav-icon
           v-if="props.isWithAppBarNavIcon"
           icon="mdi-menu"
-          :theme="theme"
+          :theme="themeStore.theme"
           @click="emit('isDrawerVisible')"
         >
         </v-app-bar-nav-icon>
@@ -98,7 +97,7 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
 
         <v-btn
           class="me-2"
-          :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+          :icon="themeStore.theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
           variant="elevated"
           slim
           @click="onToggleTheme"
