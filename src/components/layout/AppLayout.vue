@@ -70,7 +70,7 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
         v-if="!isAuthPage && isLoggedIn"
         class="px-5"
         :color="themeStore.theme === 'light' ? 'yellow-lighten-3 ' : 'indigo-darken-1'"
-        border
+        flat
       >
         <v-app-bar-nav-icon
           v-if="props.isWithAppBarNavIcon"
