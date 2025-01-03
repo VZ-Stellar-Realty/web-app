@@ -12,6 +12,15 @@ const selectedCardColor = computed(() => {
 const defaultCardColor = computed(() => {
   return themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1'
 })
+
+const value = ref([])
+const items = [
+  { title: 'House' },
+  { title: 'Land' },
+  { title: 'Apartment' },
+  { title: 'Commercial' },
+  { title: 'Industrial' },
+]
 </script>
 
 <template>
@@ -35,7 +44,7 @@ const defaultCardColor = computed(() => {
         </v-col>
 
         <v-item-group v-model="selectedItem" mandatory style="z-index: 2">
-          <v-container class="ps-5 pt-8">
+          <v-container class="ps-5 pt-8" style="padding: 12px">
             <v-row>
               <v-col
                 v-for="(item, index) in ['Buy', 'Rent', 'Assume']"
@@ -63,6 +72,59 @@ const defaultCardColor = computed(() => {
             </v-row>
           </v-container>
         </v-item-group>
+
+        <v-col cols="9" style="padding: 0" class="ps-2">
+          <v-card class="d-flex flex-grow-1 pa-4 rounded-0" style="z-index: 2">
+            <div class="d-flex align-center" style="width: 100%">
+              <div class="mr-3" style="width: 70%">
+                <div class="text-body-2 font-weight-thin pb-1">Location</div>
+                <v-text-field
+                  variant="solo-filled"
+                  placeholder="Ex. Villa Kananga"
+                  density="compact"
+                  hide-details
+                  clearable
+                ></v-text-field>
+              </div>
+              <div class="mr-3" style="width: 100%">
+                <div class="text-body-2 font-weight-thin pb-1">Property Type</div>
+                <v-select
+                  v-model="value"
+                  :items="items"
+                  variant="solo-filled"
+                  density="compact"
+                  placeholder="Select Property Type"
+                  multiple
+                  clearable
+                  hide-details
+                >
+                  <template v-slot:selection="{ item, index }">
+                    <v-chip v-if="index < 1">
+                      <span>{{ item.title }}</span>
+                    </v-chip>
+                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                      (+{{ value.length - 1 }} others)
+                    </span>
+                  </template>
+                </v-select>
+              </div>
+              <div class="mr-3" style="width: 90%">
+                <div class="text-body-2 font-weight-thin pb-1">Price Range</div>
+                <v-select
+                  placeholder="Select Price Range"
+                  :items="['$100,000 - $200,000', '$200,000 - $300,000', '$300,000 - $400,000']"
+                  multiple
+                  variant="solo-filled"
+                  density="compact"
+                  hide-details
+                  clearable
+                  chips
+                ></v-select>
+              </div>
+              <v-btn color="primary"><span data-icon="mdi-magnify"></span></v-btn>
+            </div>
+          </v-card>
+        </v-col>
       </v-row>
       <img class="intro-img" src="@/assets/images/home-img.png" alt="" />
     </v-container>
@@ -103,7 +165,6 @@ const defaultCardColor = computed(() => {
 
 .v-card.selection {
   /* From https://css.glass */
-
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(9px);
