@@ -26,10 +26,10 @@ const items = [
 <template>
   <v-sheet
     :color="themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1'"
-    :height="800"
+    :height="640"
   >
     <v-container>
-      <v-row class="pa-10">
+      <v-row class="pt-10">
         <v-col cols="10">
           <div div class="pt-10">
             <h1 class="text-h2">Find A House</h1>
@@ -157,9 +157,9 @@ const items = [
 
 .intro-img {
   position: absolute;
-  right: -10rem;
-  bottom: 12rem;
-  height: 55rem;
+  right: -8rem;
+  top: -7rem;
+  height: 51rem;
   z-index: 1;
 }
 
