@@ -96,9 +96,10 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
         <v-spacer></v-spacer>
 
         <v-btn
-          class="me-2"
+          class="me-1"
           :icon="themeStore.theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
           variant="elevated"
+          size="small"
           slim
           @click="onToggleTheme"
         ></v-btn>
