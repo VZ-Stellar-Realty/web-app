@@ -5,11 +5,15 @@ import { onMounted, ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useRoute, useRouter } from 'vue-router'
 import logoNav from '@/assets/images/logo-nav.png'
+import logoNavWhite from '@/assets/images/logo-nav-white.png'
 import { useThemeStore } from '@/stores/themeStore'
 
 const props = defineProps(['isWithAppBarNavIcon'])
 
 const emit = defineEmits(['isDrawerVisible'])
+
+// Computed property to determine the logo based on the theme
+const logo = computed(() => (themeStore.theme === 'light' ? logoNav : logoNavWhite))
 
 // Utilize pre-defined vue functions
 const { xs, sm, mobile } = useDisplay()
@@ -68,7 +72,7 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
     <v-app :theme="themeStore.theme">
       <v-app-bar
         v-if="!isAuthPage && isLoggedIn"
-        class="px-5"
+        class="px-16"
         :color="themeStore.theme === 'light' ? 'yellow-lighten-3 ' : 'indigo-darken-1'"
         flat
       >
@@ -80,8 +84,8 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
         >
         </v-app-bar-nav-icon>
 
-        <v-app-bar-title>
-          <v-img :src="logoNav" :width="xs ? '100%' : sm ? '40%' : '35%'"></v-img>
+        <v-app-bar-title class="pt-2 ps-2">
+          <v-img :src="logo" width="130"></v-img>
         </v-app-bar-title>
 
         <v-tabs v-model="tab" align-tabs="title" @update:modelValue="onTabChange">

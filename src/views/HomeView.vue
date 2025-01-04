@@ -13,6 +13,10 @@ const defaultCardColor = computed(() => {
   return themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1'
 })
 
+const searchCard = computed(() => {
+  return themeStore.theme === 'light' ? '#fff59d4a' : '#3949ab47'
+})
+
 const value = ref([])
 const items = [
   { title: 'House' },
@@ -73,8 +77,14 @@ const items = [
           </v-container>
         </v-item-group>
 
+        <!-- Search -->
         <v-col cols="9" style="padding: 0" class="ps-2">
-          <v-card class="d-flex flex-grow-1 pa-4 rounded-0" style="z-index: 2">
+          <v-card
+            :color="searchCard"
+            class="search d-flex flex-grow-1 pa-4 rounded-0 rounded-e-xl rounded-bs-xl"
+            style="z-index: 2"
+            elevation="24"
+          >
             <div class="d-flex align-center" style="width: 100%">
               <div class="mr-3" style="width: 70%">
                 <div class="text-body-2 font-weight-thin pb-1">Location</div>
@@ -121,7 +131,7 @@ const items = [
                   chips
                 ></v-select>
               </div>
-              <v-btn color="primary"><span data-icon="mdi-magnify"></span></v-btn>
+              <v-btn icon="mdi-magnify" class="rounded-lg" color="indigo-darken-4"></v-btn>
             </div>
           </v-card>
         </v-col>
@@ -169,5 +179,13 @@ const items = [
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(9px);
   -webkit-backdrop-filter: blur(9px);
+}
+
+.v-card.search {
+  background: #fff59d4a;
+  /* From https://css.glass */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.1px);
+  -webkit-backdrop-filter: blur(7.1px);
 }
 </style>
