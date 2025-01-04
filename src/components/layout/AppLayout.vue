@@ -1,32 +1,35 @@
 <script setup>
-import BottomNavigation from '@/components/layout/navigation/BottomNavigation.vue'
 import TopProfileNavigation from './navigation/TopProfileNavigation.vue'
 import { useAuthUserStore } from '@/stores/authUser'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import logoNav from '@/assets/images/logo-nav.png'
+import logoNavWhite from '@/assets/images/logo-nav-white.png'
+import { useThemeStore } from '@/stores/themeStore'
 
 const props = defineProps(['isWithAppBarNavIcon'])
 
-const emit = defineEmits(['isDrawerVisible', 'theme'])
+const emit = defineEmits(['isDrawerVisible'])
+
+// Computed property to determine the logo based on the theme
+const logo = computed(() => (themeStore.theme === 'light' ? logoNav : logoNavWhite))
 
 // Utilize pre-defined vue functions
 const { xs, sm, mobile } = useDisplay()
 
 // Use Pinia Store
 const authStore = useAuthUserStore()
+const themeStore = useThemeStore()
 
 // Load Variables
 const isLoggedIn = ref(false)
 const isMobileLogged = ref(false)
 const isDesktop = ref(false)
-const theme = ref(localStorage.getItem('theme') ?? 'light')
 
 //  Toggle Theme
 const onToggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
-  localStorage.setItem('theme', theme.value)
-  emit('theme', theme.value)
+  themeStore.toggleTheme()
 }
 
 // Load Functions during component rendering
@@ -36,38 +39,71 @@ onMounted(async () => {
   isDesktop.value = !mobile.value && (isLoggedIn.value || !isLoggedIn.value)
 })
 
-// Check if the current route is login or register
+// Tabs
 const route = useRoute()
+const router = useRouter()
+const tab = ref(route.name)
+
+const items = [
+  { text: 'Home', value: 'home', route: '/home' },
+  { text: 'Properties', value: 'properties', route: '/properties' },
+  { text: 'Agents', value: 'agents', route: '/agents' },
+  { text: 'About Us', value: 'about', route: '/about' },
+]
+
+const onTabChange = (newTab) => {
+  const selectedTab = items.find((item) => item.value === newTab)
+  if (selectedTab) {
+    router.push(selectedTab.route)
+  }
+}
+
+// Watch for route changes to update the tab value
+watch(route, () => {
+  tab.value = route.name
+})
+
+// Check if the current route is login or register
 const isAuthPage = computed(() => route.name === 'login' || route.name === 'register')
 </script>
 
 <template>
   <v-responsive>
-    <v-app :theme="theme">
+    <v-app :theme="themeStore.theme">
       <v-app-bar
-        v-if="!isAuthPage"
-        class="px-3"
-        :color="theme === 'light' ? 'red-lighten-2' : 'red-darken-4'"
-        border
+        v-if="!isAuthPage && isLoggedIn"
+        class="px-16"
+        :color="themeStore.theme === 'light' ? 'yellow-lighten-3 ' : 'indigo-darken-1'"
+        flat
       >
         <v-app-bar-nav-icon
           v-if="props.isWithAppBarNavIcon"
           icon="mdi-menu"
-          :theme="theme"
+          :theme="themeStore.theme"
           @click="emit('isDrawerVisible')"
         >
         </v-app-bar-nav-icon>
 
-        <v-app-bar-title>
-          <v-img src="/images/logo-shop.png" :width="xs ? '100%' : sm ? '40%' : '14%'"></v-img>
+        <v-app-bar-title class="pt-2 ps-2">
+          <v-img :src="logo" width="130"></v-img>
         </v-app-bar-title>
+
+        <v-tabs v-model="tab" align-tabs="title" @update:modelValue="onTabChange">
+          <v-tab
+            v-for="item in items"
+            :key="item.value"
+            :text="item.text"
+            :value="item.value"
+          ></v-tab>
+        </v-tabs>
 
         <v-spacer></v-spacer>
 
         <v-btn
-          class="me-2"
-          :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+          class="me-1"
+          :icon="themeStore.theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
           variant="elevated"
+          size="small"
           slim
           @click="onToggleTheme"
         ></v-btn>
@@ -75,26 +111,11 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
         <TopProfileNavigation v-if="isLoggedIn"></TopProfileNavigation>
       </v-app-bar>
 
-      <slot name="navigation"></slot>
+      <slot name="side-navigation"></slot>
 
       <v-main>
-        <slot name="content"></slot>
+        <router-view></router-view>
       </v-main>
-
-      <v-footer
-        v-if="!isAuthPage && (!isMobileLogged || isDesktop)"
-        class="font-weight-bold"
-        :class="mobile ? 'text-caption' : ''"
-        :color="theme === 'light' ? 'red-lighten-2' : 'red-darken-4'"
-        border
-        app
-      >
-        <div :class="mobile ? 'w-100 text-center' : ''">
-          Copyright © 2024 - Shirlix Meatshop | All Rights Reserved
-        </div>
-      </v-footer>
-
-      <BottomNavigation v-else-if="!isAuthPage && isMobileLogged" :theme="theme"></BottomNavigation>
     </v-app>
   </v-responsive>
 </template>

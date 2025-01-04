@@ -12,13 +12,13 @@ export function useRegister() {
     lastname: '',
     email: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
   }
   const formData = ref({
-    ...formDataDefault
+    ...formDataDefault,
   })
   const formAction = ref({
-    ...formActionDefault
+    ...formActionDefault,
   })
   const refVForm = ref()
 
@@ -34,10 +34,10 @@ export function useRegister() {
         data: {
           firstname: formData.value.firstname,
           lastname: formData.value.lastname,
-          is_admin: false // Just turn to true if super admin account
+          is_admin: false, // Just turn to true if super admin account
           // role: 'Administrator' // If role based; just change the string based on role
-        }
-      }
+        },
+      },
     })
 
     if (error) {
@@ -47,8 +47,8 @@ export function useRegister() {
     } else if (data) {
       // Add Success Message
       formAction.value.formSuccessMessage = 'Successfully Registered Account.'
-      // Redirect Acct to Dashboard
-      router.replace('/dashboard')
+      // Redirect to Login Page
+      router.replace('/login')
     }
 
     // Reset Form

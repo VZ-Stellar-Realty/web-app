@@ -39,8 +39,8 @@ export const useAuthUserStore = defineStore('authUser', () => {
     const {
       data: {
         // Retrieve Id, Email and Metadata thru Destructuring
-        user: { id, email, user_metadata }
-      }
+        user: { id, email, user_metadata },
+      },
     } = await supabase.auth.getUser()
 
     // Set the retrieved information to state
@@ -73,13 +73,13 @@ export const useAuthUserStore = defineStore('authUser', () => {
     const {
       data: {
         // Retrieve Id, Email and Metadata thru Destructuring
-        user: { id, email, user_metadata }
+        user: { id, email, user_metadata },
       },
-      error
+      error,
     } = await supabase.auth.updateUser({
       data: {
-        ...updatedData
-      }
+        ...updatedData,
+      },
     })
 
     // Check if it has error
@@ -104,7 +104,7 @@ export const useAuthUserStore = defineStore('authUser', () => {
       .from('shirlix')
       .upload('avatars/' + userData.value.id + '-avatar.png', file, {
         cacheControl: '3600',
-        upsert: true
+        upsert: true,
       })
 
     // Check if it has error
@@ -132,6 +132,6 @@ export const useAuthUserStore = defineStore('authUser', () => {
     getAuthPages,
     getAuthBranchIds,
     updateUserInformation,
-    updateUserImage
+    updateUserImage,
   }
 })

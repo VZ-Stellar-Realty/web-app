@@ -78,25 +78,13 @@ const isPasswordVisible = ref(false)
 
     <v-row>
       <v-col cols="6">
-        <v-btn
-          class="text-white"
-          variant="outlined"
-          color="grey-darken-1"
-          block
-          @click="onSocialLogin('google')"
-        >
+        <v-btn variant="outlined" block @click="onSocialLogin('google')">
           <GoogleIcon />
           <small>Google</small>
         </v-btn>
       </v-col>
       <v-col cols="6">
-        <v-btn
-          class="text-white"
-          variant="outlined"
-          color="grey-darken-1"
-          block
-          @click="onSocialLogin('facebook')"
-        >
+        <v-btn variant="outlined" block @click="onSocialLogin('facebook')">
           <FacebookIcon />
           <small>Facebook</small>
         </v-btn>
