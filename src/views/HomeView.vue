@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useThemeStore } from '@/stores/themeStore'
+import AppFooter from '@/components/layout/AppFooter.vue'
 
 const themeStore = useThemeStore()
 const selectedItem = ref(0)
@@ -19,17 +20,21 @@ const searchCard = computed(() => {
 
 const value = ref([])
 const items = [
-  { title: 'House' },
-  { title: 'Land' },
   { title: 'Apartment' },
   { title: 'Commercial' },
+  { title: 'House & Lot' },
   { title: 'Industrial' },
+  { title: 'Land' },
+  { title: 'Office' },
+  { title: 'Residential' },
+  { title: 'Villa' },
+  { title: 'Warehouse' },
 ]
 </script>
 
 <template>
   <v-sheet
-    :color="themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1'"
+    :color="themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1  '"
     :height="640"
   >
     <v-container>
@@ -40,10 +45,10 @@ const items = [
             <h1 class="text-h2 pt-3">That Suits You</h1>
 
             <p class="pt-6 spacing">
-              <strong>─</strong> When you're ready for a change, we're ready to
+              <strong>─</strong> When you're ready for a change, we're ready to help.
             </p>
-            <p class="pt-1 spacing">help. Whether you're buying, selling or renting, we</p>
-            <p class="pt-1 spacing">can help you move forward.</p>
+            <p class="pt-1 spacing">Whether you're buying, selling or renting, we can help</p>
+            <p class="pt-1 spacing">you move forward.</p>
           </div>
         </v-col>
 
@@ -141,7 +146,7 @@ const items = [
   </v-sheet>
 
   <div>
-    <v-container fluid>
+    <v-container>
       <v-row>
         <v-col>
           <v-card>
@@ -157,6 +162,8 @@ const items = [
         </v-col>
       </v-row>
     </v-container>
+
+    <AppFooter />
   </div>
 </template>
 
