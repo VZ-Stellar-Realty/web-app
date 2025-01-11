@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { useThemeStore } from '@/stores/themeStore'
 import AppFooter from '@/components/layout/AppFooter.vue'
-import FeaturedProperties from './system/properties/FeaturedProperties.vue'
+import FeaturedProperties from '@/components/system/properties/FeaturedProperties.vue'
 
 const themeStore = useThemeStore()
 const selectedItem = ref(0)
