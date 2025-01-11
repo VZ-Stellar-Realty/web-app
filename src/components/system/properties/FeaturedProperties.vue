@@ -76,7 +76,7 @@ for (let i = 0; i < items.length; i += chunkSize) {
     </v-lazy>
 
     <v-lazy :min-height="200" :options="{ threshold: 0.9 }" transition="slide-x-transition">
-      <v-carousel :show-arrows="false" hide-delimiter-background color="indigo darken-4">
+      <v-carousel :show-arrows="false" hide-delimiter-background class="fp-carousel">
         <v-carousel-item v-for="(chunk, index) in chunkedItems" :key="index">
           <v-row>
             <v-col v-for="(item, idx) in chunk" :key="idx" cols="4">
@@ -97,4 +97,17 @@ for (let i = 0; i < items.length; i += chunkSize) {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.fp-carousel ::v-deep .v-btn--size-x-small {
+  --v-btn-height: none;
+  color: #dfad03;
+  opacity: 0.6;
+}
+
+.fp-carousel ::v-deep .v-btn--active {
+  color: #dfad03;
+  opacity: 1;
+  transform: scale(1.2);
+  transition: transform 0.3s;
+}
+</style>
