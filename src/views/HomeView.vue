@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useThemeStore } from '@/stores/themeStore'
 import AppFooter from '@/components/layout/AppFooter.vue'
+import FeaturedProperties from './system/properties/FeaturedProperties.vue'
 
 const themeStore = useThemeStore()
 const selectedItem = ref(0)
@@ -147,20 +148,7 @@ const items = [
 
   <div>
     <v-container>
-      <v-row>
-        <v-col>
-          <v-card>
-            <v-card-title>HelloWorld</v-card-title>
-            <v-card-text>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur, nisl non
-                lacinia fermentum, nunc nulla aliquet nunc, nec fermentum nunc libero nec nunc.
-                Nullam nec nunc nec nunc sollicitudin.
-              </p>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
+      <FeaturedProperties />
     </v-container>
 
     <AppFooter />

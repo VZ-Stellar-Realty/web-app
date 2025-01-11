@@ -47,7 +47,7 @@ const tab = ref(route.name)
 const items = [
   { text: 'Home', value: 'home', route: '/home' },
   { text: 'Properties', value: 'properties', route: '/properties' },
-  { text: 'Agents', value: 'agents', route: '/agents' },
+  { text: 'Brokers', value: 'brokers', route: '/brokers' },
   { text: 'About Us', value: 'about', route: '/about' },
 ]
 
