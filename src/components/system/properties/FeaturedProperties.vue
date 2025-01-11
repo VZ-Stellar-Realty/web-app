@@ -98,14 +98,14 @@ for (let i = 0; i < items.length; i += chunkSize) {
 </template>
 
 <style scoped>
-.fp-carousel ::v-deep .v-btn--size-x-small {
+.fp-carousel :deep(.v-btn--size-x-small) {
   --v-btn-height: none;
-  color: #dfad03;
+  color: #ffc400;
   opacity: 0.6;
 }
 
-.fp-carousel ::v-deep .v-btn--active {
-  color: #dfad03;
+.fp-carousel :deep(.v-btn--active) {
+  color: #ffc400;
   opacity: 1;
   transform: scale(1.2);
   transition: transform 0.3s;
