@@ -74,3 +74,13 @@ import SitBack from '@/components/icons/SitBack.vue'
     </v-timeline>
   </div>
 </template>
+
+<style scoped>
+.first-timeline :deep(.v-timeline-divider__before) {
+  background: none;
+}
+
+.last-timeline :deep(.v-timeline-divider__after) {
+  background: none;
+}
+</style>

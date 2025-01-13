@@ -147,15 +147,13 @@ const items = [
     </v-container>
   </v-sheet>
 
-  <div>
-    <v-container>
-      <FeaturedProperties />
+  <v-container>
+    <FeaturedProperties />
 
-      <HowItWorks />
-    </v-container>
+    <HowItWorks />
+  </v-container>
 
-    <AppFooter />
-  </div>
+  <AppFooter />
 </template>
 
 <style scoped>
@@ -185,13 +183,5 @@ const items = [
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(7.1px);
   -webkit-backdrop-filter: blur(7.1px);
-}
-
-.first-timeline :deep(.v-timeline-divider__before) {
-  background: none;
-}
-
-.last-timeline :deep(.v-timeline-divider__after) {
-  background: none;
 }
 </style>
