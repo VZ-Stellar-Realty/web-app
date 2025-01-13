@@ -5,6 +5,7 @@ import AppFooter from '@/components/layout/AppFooter.vue'
 import FeaturedProperties from '@/components/system/properties/FeaturedProperties.vue'
 import HowItWorks from '@/components/system/HowItWorks.vue'
 import LatestPropertiesSell from '@/components/system/properties/LatestPropertiesSell.vue'
+import LatestPropertiesRent from '@/components/system/properties/LatestPropertiesRent.vue'
 
 const themeStore = useThemeStore()
 const selectedItem = ref(0)
@@ -154,6 +155,8 @@ const items = [
     <HowItWorks />
 
     <LatestPropertiesSell />
+
+    <LatestPropertiesRent />
   </v-container>
 
   <AppFooter />
