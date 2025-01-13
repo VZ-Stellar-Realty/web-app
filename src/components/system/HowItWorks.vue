@@ -9,7 +9,7 @@ import SitBack from '@/components/icons/SitBack.vue'
     <div class="mb-10 text-center">
       <h1>How It Works</h1>
       <small class="ps-2">
-        Discover how our platform connects you with the best properties and brokers in Butuan City.
+        Discover how our platform connects you with the best properties and brokers.
       </small>
     </div>
 

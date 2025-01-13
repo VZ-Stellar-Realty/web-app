@@ -63,8 +63,8 @@ for (let i = 0; i < items.length; i += chunkSize) {
           <v-col cols="auto">
             <h1><v-icon>mdi-minus</v-icon> Featured Properties</h1>
             <small class="ps-2"
-              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime fuga id dolores
-              deleniti ea beatae dolorum itaque incidunt est consectetur
+              >Explore our featured properties. Find the best deals and premium properties available
+              in the market.
             </small>
           </v-col>
 
