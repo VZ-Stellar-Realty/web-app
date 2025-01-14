@@ -26,6 +26,9 @@ const themeStore = useThemeStore()
 const isLoggedIn = ref(false)
 const isMobileLogged = ref(false)
 const isDesktop = ref(false)
+const appBarColor = ref(themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1')
+const isFlat = ref(true)
+const elevation = ref(0)
 
 //  Toggle Theme
 const onToggleTheme = () => {
@@ -65,6 +68,23 @@ watch(route, () => {
 
 // Check if the current route is login or register
 const isAuthPage = computed(() => route.name === 'login' || route.name === 'register')
+
+// Handle scroll event
+const handleScroll = () => {
+  if (window.scrollY === 0) {
+    appBarColor.value = themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1'
+    isFlat.value = true
+    elevation.value = 0
+  } else {
+    appBarColor.value = 'surface'
+    isFlat.value = false
+    elevation.value = 10
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -73,8 +93,9 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
       <v-app-bar
         v-if="!isAuthPage && isLoggedIn"
         class="px-16"
-        :color="themeStore.theme === 'light' ? 'yellow-lighten-3 ' : 'indigo-darken-1'"
-        flat
+        :color="appBarColor"
+        :flat="isFlat"
+        :elevation="elevation"
       >
         <v-app-bar-nav-icon
           v-if="props.isWithAppBarNavIcon"
