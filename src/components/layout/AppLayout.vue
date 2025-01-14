@@ -35,6 +35,19 @@ const onToggleTheme = () => {
   themeStore.toggleTheme()
 }
 
+// Watch for theme changes to update appBarColor
+watch(
+  () => themeStore.theme,
+  (newTheme) => {
+    appBarColor.value =
+      window.scrollY === 0
+        ? newTheme === 'light'
+          ? 'yellow-lighten-3'
+          : 'indigo-darken-1'
+        : 'surface'
+  },
+)
+
 // Load Functions during component rendering
 onMounted(async () => {
   isLoggedIn.value = await authStore.isAuthenticated()
@@ -96,6 +109,7 @@ onMounted(() => {
         :color="appBarColor"
         :flat="isFlat"
         :elevation="elevation"
+        v-scroll="handleScroll"
       >
         <v-app-bar-nav-icon
           v-if="props.isWithAppBarNavIcon"
