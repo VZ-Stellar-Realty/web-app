@@ -6,6 +6,7 @@ import FeaturedProperties from '@/components/system/properties/FeaturedPropertie
 import HowItWorks from '@/components/system/HowItWorks.vue'
 import LatestPropertiesSell from '@/components/system/properties/LatestPropertiesSell.vue'
 import LatestPropertiesRent from '@/components/system/properties/LatestPropertiesRent.vue'
+import FeaturedBrokers from '@/components/system/brokers/FeaturedBrokers.vue'
 
 const themeStore = useThemeStore()
 const selectedItem = ref(0)
@@ -157,6 +158,8 @@ const items = [
     <LatestPropertiesSell />
 
     <LatestPropertiesRent />
+
+    <FeaturedBrokers />
   </v-container>
 
   <AppFooter />
