@@ -138,6 +138,7 @@ onMounted(() => {
           class="me-1"
           :icon="themeStore.theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
           variant="elevated"
+          elevation="6"
           size="small"
           slim
           @click="onToggleTheme"
