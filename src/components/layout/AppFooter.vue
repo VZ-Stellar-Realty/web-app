@@ -15,7 +15,12 @@
           </p>
 
           <!-- Social links -->
+
           <div class="pt-3">
+            <v-btn icon class="me-2" href="" target="_blank" size="x-small" color="grey-darken-4">
+              <v-icon color="white">mdi-facebook-messenger</v-icon>
+            </v-btn>
+
             <v-btn
               icon
               class="me-2"
@@ -36,10 +41,6 @@
               color="grey-darken-4"
             >
               <v-icon color="white">mdi-instagram</v-icon>
-            </v-btn>
-
-            <v-btn icon class="me-2" href="" target="_blank" size="x-small" color="grey-darken-4">
-              <v-icon color="white">mdi-whatsapp</v-icon>
             </v-btn>
           </div>
         </v-col>

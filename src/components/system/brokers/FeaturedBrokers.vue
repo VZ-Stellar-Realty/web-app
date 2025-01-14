@@ -30,7 +30,7 @@ const items = [
 </script>
 
 <template>
-  <div class="my-15">
+  <div class="mt-15 mb-4">
     <v-lazy :min-height="100" :options="{ threshold: 0.9 }" transition="slide-x-transition">
       <div class="mb-3">
         <v-row justify="center" align="center">
@@ -51,10 +51,10 @@ const items = [
 
     <v-row style="z-index: 5">
       <div class="featbrokers-bg">
-        <v-sheet color="indigo-darken-4" height="480px"></v-sheet>
+        <v-sheet color="indigo-darken-4" height="440px"></v-sheet>
       </div>
       <v-col v-for="(item, idx) in items" :key="idx" cols="4">
-        <v-card elevation="5" class="my-5 mx-2 d-flex flex-column" height="450">
+        <v-card elevation="12" class="my-5 mx-2 d-flex flex-column" height="450">
           <v-sheet
             :color="themeStore.theme === 'light' ? 'amber-accent-3' : 'amber-accent-3 '"
             height="150px"
@@ -92,9 +92,10 @@ const items = [
 
             <v-btn
               :color="themeStore.theme === 'light' ? 'indigo-darken-4' : 'indigo-darken-1  '"
-              icon="mdi-instagram"
+              icon="mdi-facebook-messenger"
               size="small"
               variant="tonal"
+              s
             ></v-btn>
             <v-btn
               :color="themeStore.theme === 'light' ? 'indigo-darken-4' : 'indigo-darken-1  '"
@@ -104,10 +105,9 @@ const items = [
             ></v-btn>
             <v-btn
               :color="themeStore.theme === 'light' ? 'indigo-darken-4' : 'indigo-darken-1  '"
-              icon="mdi-facebook-messenger"
+              icon="mdi-instagram"
               size="small"
               variant="tonal"
-              s
             ></v-btn>
           </v-card-actions>
         </v-card>
