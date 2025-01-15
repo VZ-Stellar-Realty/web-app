@@ -1,11 +1,11 @@
 // Default
-import LandingView from '@/views/LandingView.vue'
-import HomeView from '@/views/HomeView.vue'
-import PropertiesView from '@/views/PropertiesView.vue'
+const LandingView = () => import('@/views/LandingView.vue')
+const HomeView = () => import('@/views/HomeView.vue')
+const PropertiesView = () => import('@/views/PropertiesView.vue')
 // Auth
-import LoginView from '@/views/auth/LoginView.vue'
-import RegisterView from '@/views/auth/RegisterView.vue'
-import AppLayout from '@/components/layout/AppLayout.vue'
+const LoginView = () => import('@/views/auth/LoginView.vue')
+const RegisterView = () => import('@/views/auth/RegisterView.vue')
+const AppLayout = () => import('@/components/layout/AppLayout.vue')
 
 // 👉 Routes
 export const routes = [

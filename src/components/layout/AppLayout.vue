@@ -12,17 +12,13 @@ const props = defineProps(['isWithAppBarNavIcon'])
 
 const emit = defineEmits(['isDrawerVisible'])
 
-// Computed property to determine the logo based on the theme
 const logo = computed(() => (themeStore.theme === 'light' ? logoNav : logoNavWhite))
 
-// Utilize pre-defined vue functions
 const { xs, sm, mobile } = useDisplay()
 
-// Use Pinia Store
 const authStore = useAuthUserStore()
 const themeStore = useThemeStore()
 
-// Load Variables
 const isLoggedIn = ref(false)
 const isMobileLogged = ref(false)
 const isDesktop = ref(false)
@@ -30,12 +26,10 @@ const appBarColor = ref(themeStore.theme === 'light' ? 'yellow-lighten-3' : 'ind
 const isFlat = ref(true)
 const elevation = ref(0)
 
-//  Toggle Theme
 const onToggleTheme = () => {
   themeStore.toggleTheme()
 }
 
-// Watch for theme changes to update appBarColor
 watch(
   () => themeStore.theme,
   (newTheme) => {
@@ -48,14 +42,12 @@ watch(
   },
 )
 
-// Load Functions during component rendering
 onMounted(async () => {
   isLoggedIn.value = await authStore.isAuthenticated()
   isMobileLogged.value = mobile.value && isLoggedIn.value
   isDesktop.value = !mobile.value && (isLoggedIn.value || !isLoggedIn.value)
 })
 
-// Tabs
 const route = useRoute()
 const router = useRouter()
 const tab = ref(route.name)
@@ -74,15 +66,12 @@ const onTabChange = (newTab) => {
   }
 }
 
-// Watch for route changes to update the tab value
 watch(route, () => {
   tab.value = route.name
 })
 
-// Check if the current route is login or register
 const isAuthPage = computed(() => route.name === 'login' || route.name === 'register')
 
-// Handle scroll event
 const handleScroll = () => {
   if (window.scrollY === 0) {
     appBarColor.value = themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1'
@@ -150,7 +139,9 @@ onMounted(() => {
       <slot name="side-navigation"></slot>
 
       <v-main>
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </v-main>
     </v-app>
   </v-responsive>
