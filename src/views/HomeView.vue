@@ -7,6 +7,7 @@ import HowItWorks from '@/components/system/HowItWorks.vue'
 import LatestPropertiesSell from '@/components/system/properties/LatestPropertiesSell.vue'
 import LatestPropertiesRent from '@/components/system/properties/LatestPropertiesRent.vue'
 import FeaturedBrokers from '@/components/system/brokers/FeaturedBrokers.vue'
+import ScrollToTopFab from '@/components/common/ScrollToTopFab.vue'
 
 const themeStore = useThemeStore()
 const selectedItem = ref(0)
@@ -162,6 +163,7 @@ const items = [
     <FeaturedBrokers />
   </v-container>
 
+  <ScrollToTopFab />
   <AppFooter />
 </template>
 
