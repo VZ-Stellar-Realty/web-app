@@ -24,8 +24,8 @@ export const getMoneyText = (value) => {
   return new Intl.NumberFormat('en-PH', {
     style: 'currency',
     currency: 'PHP',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(value)
 }
 
@@ -51,7 +51,7 @@ export const getRandomCode = (length = 6) => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
   return Array.from({ length }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join(
-    ''
+    '',
   )
 }
 

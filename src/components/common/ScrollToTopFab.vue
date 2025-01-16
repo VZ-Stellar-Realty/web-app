@@ -1,5 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useThemeStore } from '@/stores/themeStore'
+
+const themeStore = useThemeStore()
 
 const visible = ref(false)
 
@@ -39,7 +42,9 @@ onUnmounted(() => {
       @click="scrollToTop"
       class="scroll-to-top-fab"
     >
-      <v-icon color="white" size="x-large">mdi-chevron-up</v-icon>
+      <v-icon :color="themeStore.theme === 'light' ? 'black' : 'white  '" size="x-large"
+        >mdi-chevron-up</v-icon
+      >
     </v-btn>
   </v-fab-transition>
 </template>

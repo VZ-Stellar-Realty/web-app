@@ -1,27 +1,22 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useThemeStore } from '@/stores/themeStore'
+import { getMoneyText } from '@/utils/helpers.js'
 import listingBg from '@/assets/images/listing-bg.png'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import ScrollToTopFab from '@/components/common/ScrollToTopFab.vue'
 
+const themeStore = useThemeStore()
 const loading = ref(true)
 const priceRange = ref([5000, 20000000])
+const currentPage = ref(1)
+const itemsPerPage = 10
 
 onMounted(async () => {
   // Simulate data fetching
   await new Promise((resolve) => setTimeout(resolve, 1000))
   loading.value = false
 })
-
-const formatCurrency = (value) => {
-  const formattedValue = new Intl.NumberFormat('en-PH', {
-    style: 'currency',
-    currency: 'PHP',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value)
-  return formattedValue.replace('PHP', '₱')
-}
 
 const items = [
   {
@@ -31,65 +26,15 @@ const items = [
     description: 'This is a description of Property 1.',
     link: '#',
   },
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 2',
-    location: 'Location 2',
-    description: 'This is a description of Property 2.',
-    link: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 3',
-    location: 'Location 3',
-    description: 'This is a description of Property 3.',
-    link: '#',
-  },
-
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 4',
-    location: 'Location 4',
-    description: 'This is a description of Property 4.',
-    link: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 5',
-    location: 'Location 5',
-    description: 'This is a description of Property 5.',
-    link: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 6',
-    location: 'Location 6',
-    description: 'This is a description of Property 6.',
-    link: '#',
-  },
-
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 7',
-    location: 'Location 7',
-    description: 'This is a description of Property 7.',
-    link: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 8',
-    location: 'Location 8',
-    description: 'This is a description of Property 8.',
-    link: '#',
-  },
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 9',
-    location: 'Location 9',
-    description: 'This is a description of Property 9.',
-    link: '#',
-  },
 ]
+
+const paginatedItems = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return items.slice(start, end)
+})
+
+const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
 </script>
 
 <template>
@@ -184,7 +129,7 @@ const items = [
                     thumb-label
                   >
                     <template v-slot:thumb-label="{ modelValue }">
-                      <span>{{ formatCurrency(modelValue) }}</span>
+                      <span>{{ getMoneyText(modelValue) }}</span>
                     </template>
                   </v-range-slider>
                 </div>
@@ -195,10 +140,10 @@ const items = [
         </v-row>
       </div>
 
-      <div class="filtered-items my-8">
+      <div class="filtered-items my-9">
         <v-container>
           <v-row>
-            <v-col v-for="(item, idx) in items" :key="idx" cols="6">
+            <v-col v-for="(item, idx) in paginatedItems" :key="idx" cols="6">
               <v-card elevation="5" class="my-3 mx-2">
                 <v-img :src="item.image" height="250px"></v-img>
                 <v-card-title>{{ item.title }}</v-card-title>
@@ -212,6 +157,17 @@ const items = [
           </v-row>
         </v-container>
       </div>
+
+      <v-pagination
+        v-if="totalPages > 1"
+        v-model="currentPage"
+        :length="totalPages"
+        :color="themeStore.theme === 'light' ? 'indigo-darken-4' : 'amber-accent-3  '"
+        class="mb-12"
+        rounded="circle"
+        next-icon="mdi-menu-right"
+        prev-icon="mdi-menu-left"
+      ></v-pagination>
 
       <AppFooter />
       <ScrollToTopFab />
