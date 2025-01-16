@@ -12,6 +12,14 @@ const priceRange = ref([5000, 20000000])
 const currentPage = ref(1)
 const itemsPerPage = 10
 
+const searchCard = computed(() => {
+  return themeStore.theme === 'light' ? '#fff59d94' : '#3948ab79'
+})
+
+const sliderThumbLabelColor = computed(() => {
+  return themeStore.theme === 'light' ? '#5C6BC0' : '#FFF176'
+})
+
 onMounted(async () => {
   // Simulate data fetching
   await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -24,6 +32,14 @@ const items = [
     title: 'Property 1',
     location: 'Location 1',
     description: 'This is a description of Property 1.',
+    link: '#',
+  },
+
+  {
+    image: 'https://via.placeholder.com/300',
+    title: 'Property 2',
+    location: 'Location 2',
+    description: 'This is a description of Property 2.',
     link: '#',
   },
 ]
@@ -64,7 +80,7 @@ const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
           <v-col cols="10" style="padding: 0" class="ps-2">
             <v-card
               :color="searchCard"
-              class="search d-flex flex-grow-1 pa-4 rounded-0"
+              class="search d-flex flex-grow-1 pa-4 rounded-"
               style="z-index: 2"
               elevation="24"
             >
@@ -118,7 +134,7 @@ const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
                 <div class="mr-3" style="width: 65%">
                   <div class="text-body-2 font-weight-thin pb-1">Price Range</div>
                   <v-range-slider
-                    color="indigo-darken-4"
+                    :color="themeStore.theme === 'light' ? 'indigo-lighten-2' : 'yellow-lighten-2 '"
                     size="small"
                     v-model="priceRange"
                     step="100000"
@@ -127,6 +143,7 @@ const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
                     hide-details
                     focused="true"
                     thumb-label
+                    :style="{ '--v-slider-thumb-label-background-color': sliderThumbLabelColor }"
                   >
                     <template v-slot:thumb-label="{ modelValue }">
                       <span>{{ getMoneyText(modelValue) }}</span>
@@ -195,10 +212,18 @@ const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
   filter: brightness(0.7); /* Adjust the value as needed */
 }
 
+.v-card.search {
+  background: #3948ab79;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
 :deep(.v-slider-thumb__label) {
-  background-color: #9fa8da;
+  background-color: var(--v-slider-thumb-label-background-color);
 }
 :deep(.v-slider-thumb__label::before) {
-  color: #9fa8da;
+  color: var(--v-slider-thumb-label-background-color);
 }
 </style>
