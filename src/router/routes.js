@@ -2,6 +2,7 @@
 const LandingView = () => import('@/views/LandingView.vue')
 const HomeView = () => import('@/views/HomeView.vue')
 const PropertiesView = () => import('@/views/PropertiesView.vue')
+const BrokersView = () => import('@/views/BrokersView.vue')
 // Auth
 const LoginView = () => import('@/views/auth/LoginView.vue')
 const RegisterView = () => import('@/views/auth/RegisterView.vue')
@@ -32,7 +33,12 @@ export const routes = [
         component: PropertiesView,
         meta: { requiresAuth: true, isDefault: true },
       },
-      // Add other routes here
+      {
+        path: 'brokers',
+        name: 'brokers',
+        component: BrokersView,
+        meta: { requiresAuth: true, isDefault: true },
+      },
     ],
   },
   // Auth Routes

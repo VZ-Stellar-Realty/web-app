@@ -80,7 +80,7 @@ const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
           <v-col cols="10" style="padding: 0" class="ps-2">
             <v-card
               :color="searchCard"
-              class="search d-flex flex-grow-1 pa-4 rounded-"
+              class="search d-flex flex-grow-1 pa-4 rounded-lg"
               style="z-index: 2"
               elevation="24"
             >

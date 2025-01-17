@@ -51,12 +51,12 @@ const items = [
 
     <v-row style="z-index: 5">
       <div class="featbrokers-bg">
-        <v-sheet color="indigo-darken-4" height="440px"></v-sheet>
+        <v-sheet color="indigo-darken-4" height="430px"></v-sheet>
       </div>
       <v-col v-for="(item, idx) in items" :key="idx" cols="4">
-        <v-card elevation="12" class="my-5 mx-2 d-flex flex-column" height="450">
+        <v-card elevation="12" class="my-5 mx-2 d-flex flex-column" height="445">
           <v-sheet
-            :color="themeStore.theme === 'light' ? 'amber-accent-3' : 'amber-accent-3 '"
+            :color="themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1 '"
             height="150px"
           ></v-sheet>
           <div class="broker-avatar">
@@ -69,7 +69,7 @@ const items = [
           </div>
           <div class="pt-2 text-center flex-grow-1">
             <v-card-title class="pt-16">{{ item.name }}</v-card-title>
-            <div class="mb-2">
+            <div class="mb-3">
               <v-chip
                 class="me-2"
                 :color="themeStore.theme === 'light' ? 'indigo-darken-4' : 'indigo-darken-1  '"
