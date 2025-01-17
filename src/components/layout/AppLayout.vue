@@ -12,34 +12,42 @@ const props = defineProps(['isWithAppBarNavIcon'])
 
 const emit = defineEmits(['isDrawerVisible'])
 
-// Computed property to determine the logo based on the theme
 const logo = computed(() => (themeStore.theme === 'light' ? logoNav : logoNavWhite))
 
-// Utilize pre-defined vue functions
 const { xs, sm, mobile } = useDisplay()
 
-// Use Pinia Store
 const authStore = useAuthUserStore()
 const themeStore = useThemeStore()
 
-// Load Variables
 const isLoggedIn = ref(false)
 const isMobileLogged = ref(false)
 const isDesktop = ref(false)
+const appBarColor = ref(themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1')
+const isFlat = ref(true)
+const elevation = ref(0)
 
-//  Toggle Theme
 const onToggleTheme = () => {
   themeStore.toggleTheme()
 }
 
-// Load Functions during component rendering
+watch(
+  () => themeStore.theme,
+  (newTheme) => {
+    appBarColor.value =
+      window.scrollY === 0
+        ? newTheme === 'light'
+          ? 'yellow-lighten-3'
+          : 'indigo-darken-1'
+        : 'surface'
+  },
+)
+
 onMounted(async () => {
   isLoggedIn.value = await authStore.isAuthenticated()
   isMobileLogged.value = mobile.value && isLoggedIn.value
   isDesktop.value = !mobile.value && (isLoggedIn.value || !isLoggedIn.value)
 })
 
-// Tabs
 const route = useRoute()
 const router = useRouter()
 const tab = ref(route.name)
@@ -58,13 +66,27 @@ const onTabChange = (newTab) => {
   }
 }
 
-// Watch for route changes to update the tab value
 watch(route, () => {
   tab.value = route.name
 })
 
-// Check if the current route is login or register
 const isAuthPage = computed(() => route.name === 'login' || route.name === 'register')
+
+const handleScroll = () => {
+  if (window.scrollY === 0) {
+    appBarColor.value = themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1'
+    isFlat.value = true
+    elevation.value = 0
+  } else {
+    appBarColor.value = 'surface'
+    isFlat.value = false
+    elevation.value = 10
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -73,8 +95,10 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
       <v-app-bar
         v-if="!isAuthPage && isLoggedIn"
         class="px-16"
-        :color="themeStore.theme === 'light' ? 'yellow-lighten-3 ' : 'indigo-darken-1'"
-        flat
+        :color="appBarColor"
+        :flat="isFlat"
+        :elevation="elevation"
+        v-scroll="handleScroll"
       >
         <v-app-bar-nav-icon
           v-if="props.isWithAppBarNavIcon"
@@ -103,6 +127,7 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
           class="me-1"
           :icon="themeStore.theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
           variant="elevated"
+          elevation="6"
           size="small"
           slim
           @click="onToggleTheme"
@@ -114,7 +139,9 @@ const isAuthPage = computed(() => route.name === 'login' || route.name === 'regi
       <slot name="side-navigation"></slot>
 
       <v-main>
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </v-main>
     </v-app>
   </v-responsive>
