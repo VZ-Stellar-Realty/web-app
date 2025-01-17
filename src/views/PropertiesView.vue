@@ -186,7 +186,7 @@ const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
         prev-icon="mdi-menu-left"
       ></v-pagination>
 
-      <AppFooter />
+      <AppFooter class="mt-12" />
       <ScrollToTopFab />
     </div>
   </div>

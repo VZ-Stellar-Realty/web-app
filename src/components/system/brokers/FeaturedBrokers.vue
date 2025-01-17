@@ -37,8 +37,8 @@ const items = [
           <v-col cols="auto">
             <h1><v-icon>mdi-minus</v-icon> Featured Brokers</h1>
             <small class="ps-2">
-              Meet our top brokers who are ready to assist you in finding your perfect property.
-              They are experienced and dedicated to providing the best service.
+              Meet our brokers who are ready to assist you in finding your perfect property. They
+              are experienced and dedicated to providing the best service.
             </small>
           </v-col>
 

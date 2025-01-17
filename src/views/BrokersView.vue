@@ -11,15 +11,23 @@ const themeStore = useThemeStore()
 const loading = ref(true)
 const currentPage = ref(1)
 const itemsPerPage = 9
+const search = ref(false)
 
 const borderColor = computed(() => (themeStore.theme === 'light' ? 'white' : '#212121'))
+const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
+
+const paginatedItems = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return items.slice(start, end)
+})
 
 const items = [
   {
     name: 'Joren Verdad',
     email: 'jorenverdad@gmail.com',
     contact: '+639123456789',
-    bio: 'Experienced broker with a deep understanding of the local market. to helping clients find their dream homes.',
+    bio: 'Experienced broker with a deep understanding of the local market. To helping clients find their dream homes. Dedicated to helping clients find their dream homes.',
   },
   {
     name: 'Honey Mae Omela',
@@ -33,69 +41,7 @@ const items = [
     contact: '+639123456789',
     bio: 'Specializes in luxury properties and high-end real estate.',
   },
-  {
-    name: 'John Doe',
-    email: 'johndoe@gmail.com',
-    contact: '+639123456789',
-    bio: 'Committed to providing excellent customer service and support.',
-  },
-  {
-    name: 'Jane Smith',
-    email: 'janesmith@gmail.com',
-    contact: '+639123456789',
-    bio: 'Expert in residential and commercial real estate transactions.',
-  },
-  {
-    name: 'Michael Johnson',
-    email: 'michaeljohnson@gmail.com',
-    contact: '+639123456789',
-    bio: 'Known for his negotiation skills and market knowledge.',
-  },
-  {
-    name: 'Emily Davis',
-    email: 'emilydavis@gmail.com',
-    contact: '+639123456789',
-    bio: 'Passionate about helping first-time homebuyers.',
-  },
-  {
-    name: 'David Brown',
-    email: 'davidbrown@gmail.com',
-    contact: '+639123456789',
-    bio: 'Focused on investment properties and real estate development.',
-  },
-  {
-    name: 'Sarah Wilson',
-    email: 'sarahwilson@gmail.com',
-    contact: '+639123456789',
-    bio: "Provides personalized service to meet each client's needs.",
-  },
-  {
-    name: 'Chris Lee',
-    email: 'chrislee@gmail.com',
-    contact: '+639123456789',
-    bio: 'Experienced in both buying and selling properties.',
-  },
-  {
-    name: 'Jessica Martinez',
-    email: 'jessicamartinez@gmail.com',
-    contact: '+639123456789',
-    bio: 'Specializes in relocation services and corporate housing.',
-  },
-  {
-    name: 'Daniel Garcia',
-    email: 'danielgarcia@gmail.com',
-    contact: '+639123456789',
-    bio: 'Known for his attention to detail and client satisfaction.',
-  },
 ]
-
-const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  return items.slice(start, end)
-})
-
-const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
 
 onMounted(async () => {
   // Simulate data fetching
@@ -125,8 +71,31 @@ onMounted(async () => {
         </v-row>
       </div>
 
-      <v-container class="mt-15">
-        <v-row style="z-index: 5">
+      <v-container class="mt-8">
+        <v-row justify="end">
+          <v-col cols="4">
+            <v-text-field
+              @focus="search = true"
+              @blur="search = false"
+              placeholder="Search by name or keyword..."
+              class="me-2"
+              label="Search"
+              variant="outlined"
+              color="amber-accent-3"
+              rounded="xl"
+              hide-details
+              clearable
+            >
+              <template v-slot:prepend-inner>
+                <v-icon :color="search ? 'amber-accent-3' : ''">mdi-magnify</v-icon>
+              </template>
+            </v-text-field>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <v-container>
+        <v-row>
           <v-col v-for="(item, idx) in paginatedItems" :key="idx" cols="4">
             <v-card elevation="12" class="my-5 mx-2 d-flex flex-column" height="445">
               <v-sheet
@@ -200,7 +169,7 @@ onMounted(async () => {
         prev-icon="mdi-menu-left"
       ></v-pagination>
 
-      <AppFooter />
+      <AppFooter class="mt-12" />
       <ScrollToTopFab />
     </div>
   </div>
