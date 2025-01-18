@@ -7,6 +7,7 @@ const RegisterView = () => import('@/views/auth/RegisterView.vue')
 
 // Default Pages
 const LandingView = () => import('@/views/LandingView.vue')
+const DashboardView = () => import('@/views/DashboardView.vue')
 const HomeView = () => import('@/views/HomeView.vue')
 const PropertiesView = () => import('@/views/PropertiesView.vue')
 const BrokersView = () => import('@/views/BrokersView.vue')
@@ -31,6 +32,8 @@ export const routes = [
     component: RegisterView,
     meta: { requiresAuth: false },
   },
+
+  // Default Route
   {
     path: '/',
     name: 'landing',
@@ -41,7 +44,6 @@ export const routes = [
     path: '/',
     component: AppLayout,
     children: [
-      // Default Route
       {
         path: 'home',
         name: 'home',
@@ -66,8 +68,15 @@ export const routes = [
         component: AccountSettingsView,
         meta: { requiresAuth: true, isDefault: true },
       },
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: DashboardView,
+        meta: { requiresAuth: true, isDefault: true },
+      },
     ],
   },
+
   // Error Routes
   {
     path: '/forbidden',

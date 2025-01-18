@@ -141,7 +141,7 @@ onMounted(() => {
       <v-main>
         <router-view v-slot="{ Component }">
           <keep-alive>
-            <component :is="Component" />
+            <component :is="Component" :isDrawerVisible="props.isWithAppBarNavIcon" />
           </keep-alive>
         </router-view>
       </v-main>

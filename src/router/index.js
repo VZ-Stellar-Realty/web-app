@@ -31,14 +31,22 @@ router.beforeEach(async (to) => {
     if (!authStore.userData) await authStore.getUserInformation()
 
     // Get the user role
-    const isSuperAdmin = authStore.userRole === 'Super Administrator'
+    const userRole = authStore.userRole
+    console.log('User Role:', userRole) // Debugging line
+
+    // Redirect to dashboard if the role is not 'User'
+    if (userRole !== 'User' && to.name !== 'dashboard') {
+      return { name: 'dashboard' }
+    }
 
     // Load if not super admin
-    if (!isSuperAdmin) {
-      if (authStore.authPages.length == 0) await authStore.getAuthPages(authStore.userRole)
+    if (userRole !== 'Super Administrator') {
+      if (authStore.authPages.length == 0) await authStore.getAuthPages(userRole)
+      console.log('User Pages:', authStore.authPages) // Debugging line
 
       // Check page that is going to if it is in role pages
       const isAccessible = authStore.authPages.includes(to.path)
+      console.log('Is Accessible:', isAccessible) // Debugging line
 
       // Forbid access if not in role pages and if page is not default page
       if (!isAccessible && !to.meta.isDefault) {
