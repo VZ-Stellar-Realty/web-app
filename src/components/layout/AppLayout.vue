@@ -1,5 +1,6 @@
 <script setup>
 import TopProfileNavigation from './navigation/TopProfileNavigation.vue'
+import SideNavigation from './navigation/SideNavigation.vue'
 import { useAuthUserStore } from '@/stores/authUser'
 import { onMounted, ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
@@ -9,8 +10,6 @@ import logoNavWhite from '@/assets/images/logo-nav-white.png'
 import { useThemeStore } from '@/stores/themeStore'
 
 const props = defineProps(['isWithAppBarNavIcon'])
-
-const emit = defineEmits(['isDrawerVisible'])
 
 const logo = computed(() => (themeStore.theme === 'light' ? logoNav : logoNavWhite))
 
@@ -25,6 +24,7 @@ const isDesktop = ref(false)
 const appBarColor = ref(themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1')
 const isFlat = ref(true)
 const elevation = ref(0)
+const isDrawerVisible = ref(mobile.value ? false : true)
 
 const onToggleTheme = () => {
   themeStore.toggleTheme()
@@ -84,6 +84,20 @@ const handleScroll = () => {
   }
 }
 
+const toggleDrawer = () => {
+  isDrawerVisible.value = !isDrawerVisible.value
+}
+
+// Compute the value of isWithAppBarNavIcon based on the user's role
+const isWithAppBarNavIconComputed = computed(() => {
+  return authStore.userRole !== 'User'
+})
+
+// Compute whether to show the SideNavigation based on the user's role
+const showSideNavigation = computed(() => {
+  return authStore.userRole !== 'User'
+})
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })
@@ -101,10 +115,10 @@ onMounted(() => {
         v-scroll="handleScroll"
       >
         <v-app-bar-nav-icon
-          v-if="props.isWithAppBarNavIcon"
+          v-if="isWithAppBarNavIconComputed"
           icon="mdi-menu"
           :theme="themeStore.theme"
-          @click="emit('isDrawerVisible')"
+          @click="toggleDrawer"
         >
         </v-app-bar-nav-icon>
 
@@ -136,12 +150,12 @@ onMounted(() => {
         <TopProfileNavigation v-if="isLoggedIn"></TopProfileNavigation>
       </v-app-bar>
 
-      <slot name="side-navigation"></slot>
+      <SideNavigation v-if="showSideNavigation" :is-drawer-visible="isDrawerVisible" />
 
       <v-main>
         <router-view v-slot="{ Component }">
           <keep-alive>
-            <component :is="Component" :isDrawerVisible="props.isWithAppBarNavIcon" />
+            <component :is="Component" />
           </keep-alive>
         </router-view>
       </v-main>

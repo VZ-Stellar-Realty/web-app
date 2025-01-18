@@ -5,7 +5,7 @@ import {
   menuItemsNav2,
   menuItemsNav3,
   menuItemsNav4,
-  menuItemsNav5
+  menuItemsNav5,
 } from './sideNavigation'
 import { useAuthUserStore } from '@/stores/authUser'
 import { ref, watch, onMounted } from 'vue'
@@ -31,9 +31,9 @@ const isDrawerVisible = ref(props.isDrawerVisible)
 // Watch props if it changes
 watch(
   () => props.isDrawerVisible,
-  () => {
-    isDrawerVisible.value = props.isDrawerVisible
-  }
+  (newVal) => {
+    isDrawerVisible.value = newVal
+  },
 )
 
 // Filter pages base on role
@@ -45,7 +45,7 @@ const onFilterPages = async () => {
     { items: editableMenuItemsNav2, title: mainNav[1][0] },
     { items: editableMenuItemsNav3, title: mainNav[2][0] },
     { items: editableMenuItemsNav4, title: mainNav[3][0] },
-    { items: editableMenuItemsNav5, title: mainNav[4][0] }
+    { items: editableMenuItemsNav5, title: mainNav[4][0] },
   ]
 
   menuItems.forEach(({ items, title }) => {
