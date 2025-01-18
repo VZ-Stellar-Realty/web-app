@@ -52,7 +52,7 @@ const onLogout = async () => {
         </v-avatar>
 
         <v-avatar v-else color="deep-purple-darken-4">
-          <span class="text-h6">
+          <span class="avatar-text">
             {{ getAvatarText(authStore.userData.firstname + ' ' + authStore.userData.lastname) }}
           </span>
         </v-avatar>
@@ -88,7 +88,13 @@ const onLogout = async () => {
 
         <v-divider class="my-3"></v-divider>
 
-        <v-btn prepend-icon="mdi-wrench" variant="plain" to="/account/settings">
+        <v-btn
+          prepend-icon="mdi-wrench"
+          variant="plain"
+          class="d-flex justify-start"
+          to="/account/settings"
+          block
+        >
           Account Settings
         </v-btn>
 
@@ -97,9 +103,11 @@ const onLogout = async () => {
         <v-btn
           prepend-icon="mdi-logout"
           variant="plain"
+          class="d-flex justify-start"
           @click="onLogout"
           :loading="formAction.formProcess"
           :disabled="formAction.formProcess"
+          block
         >
           Logout
         </v-btn>
@@ -107,3 +115,14 @@ const onLogout = async () => {
     </v-card>
   </v-menu>
 </template>
+
+<style scoped>
+.avatar-text {
+  font-size: 1rem !important;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.0125em !important;
+  font-family: 'Roboto', sans-serif;
+  text-transform: none !important;
+}
+</style>
