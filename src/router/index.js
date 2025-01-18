@@ -34,8 +34,8 @@ router.beforeEach(async (to) => {
     const userRole = authStore.userRole
     console.log('User Role:', userRole) // Debugging line
 
-    // Redirect to dashboard if the role is not 'User'
-    if (userRole !== 'User' && to.name !== 'dashboard') {
+    // Redirect to dashboard if the role is not 'User' and the route is not 'account-settings'
+    if (userRole !== 'User' && to.name !== 'dashboard' && to.name !== 'account-settings') {
       return { name: 'dashboard' }
     }
 
