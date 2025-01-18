@@ -57,9 +57,8 @@ export const routes = [
         component: BrokersView,
         meta: { requiresAuth: true, isDefault: true },
       },
-
       {
-        path: '/account/settings',
+        path: 'account/settings',
         name: 'account-settings',
         component: AccountSettingsView,
         meta: { requiresAuth: true, isDefault: true },
