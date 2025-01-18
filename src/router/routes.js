@@ -12,6 +12,10 @@ const PropertiesView = () => import('@/views/PropertiesView.vue')
 const BrokersView = () => import('@/views/BrokersView.vue')
 const AccountSettingsView = () => import('@/views/AccountSettingsView.vue')
 
+// Error Pages
+const ForbiddenView = () => import('@/views/errors/ForbiddenView.vue')
+const NotFoundView = () => import('@/views/errors/NotFoundView.vue')
+
 // 👉 Routes
 export const routes = [
   // Auth Routes
@@ -28,7 +32,6 @@ export const routes = [
     meta: { requiresAuth: false },
   },
 
-  // Default Route
   {
     path: '/',
     name: 'landing',
@@ -39,6 +42,7 @@ export const routes = [
     path: '/',
     component: AppLayout,
     children: [
+      // Default Route
       {
         path: 'home',
         name: 'home',
@@ -62,6 +66,20 @@ export const routes = [
         name: 'account-settings',
         component: AccountSettingsView,
         meta: { requiresAuth: true, isDefault: true },
+      },
+
+      // Error Routes
+      {
+        path: '/forbidden',
+        name: 'forbidden',
+        component: ForbiddenView,
+        meta: { isDefault: true },
+      },
+      {
+        path: '/:catchAll(.*)',
+        name: 'not-found',
+        component: NotFoundView,
+        meta: { isDefault: true },
       },
     ],
   },
