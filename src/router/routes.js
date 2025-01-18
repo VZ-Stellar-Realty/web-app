@@ -31,7 +31,6 @@ export const routes = [
     component: RegisterView,
     meta: { requiresAuth: false },
   },
-
   {
     path: '/',
     name: 'landing',
@@ -67,20 +66,19 @@ export const routes = [
         component: AccountSettingsView,
         meta: { requiresAuth: true, isDefault: true },
       },
-
-      // Error Routes
-      {
-        path: '/forbidden',
-        name: 'forbidden',
-        component: ForbiddenView,
-        meta: { isDefault: true },
-      },
-      {
-        path: '/:catchAll(.*)',
-        name: 'not-found',
-        component: NotFoundView,
-        meta: { isDefault: true },
-      },
     ],
+  },
+  // Error Routes
+  {
+    path: '/forbidden',
+    name: 'forbidden',
+    component: ForbiddenView,
+    meta: { isDefault: true },
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'not-found',
+    component: NotFoundView,
+    meta: { isDefault: true },
   },
 ]
