@@ -35,7 +35,7 @@ export function useRegister() {
           firstname: formData.value.firstname,
           lastname: formData.value.lastname,
           is_admin: false, // Just turn to true if super admin account
-          // role: 'Administrator' // If role based; just change the string based on role
+          role: 'User', // If role based; just change the string based on role
         },
       },
     })

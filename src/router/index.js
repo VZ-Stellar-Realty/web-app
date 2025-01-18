@@ -37,9 +37,6 @@ router.beforeEach(async (to) => {
     if (!isSuperAdmin) {
       if (authStore.authPages.length == 0) await authStore.getAuthPages(authStore.userRole)
 
-      console.log('authPages:', authStore.authPages)
-      console.log('to.path:', to.path)
-
       // Check page that is going to if it is in role pages
       const isAccessible = authStore.authPages.includes(to.path)
 
