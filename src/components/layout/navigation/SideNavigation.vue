@@ -11,32 +11,20 @@ import { useAuthUserStore } from '@/stores/authUser'
 import { ref, watch, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 
-const props = defineProps(['isDrawerVisible'])
+const props = defineProps(['toggleRail', 'rail', 'expandOnHover'])
 
-// Utilize pre-defined vue functions
+import logo from '@/assets/images/logo-bgw.png'
+
 const { mobile } = useDisplay()
-
-// Use Pinia Store
 const authStore = useAuthUserStore()
 
-// Load Variables
 const noAccessPages = ref([])
 const editableMenuItemsNav1 = ref([...menuItemsNav1])
 const editableMenuItemsNav2 = ref([...menuItemsNav2])
 const editableMenuItemsNav3 = ref([...menuItemsNav3])
 const editableMenuItemsNav4 = ref([...menuItemsNav4])
 const editableMenuItemsNav5 = ref([...menuItemsNav5])
-const isDrawerVisible = ref(props.isDrawerVisible)
 
-// Watch props if it changes
-watch(
-  () => props.isDrawerVisible,
-  (newVal) => {
-    isDrawerVisible.value = newVal
-  },
-)
-
-// Filter pages base on role
 const onFilterPages = async () => {
   if (authStore.userRole === 'Super Administrator') return
 
@@ -54,7 +42,12 @@ const onFilterPages = async () => {
   })
 }
 
-// Load Functions during component rendering
+const drawer = ref(true)
+
+const handleDrawerClick = () => {
+  props.toggleRail()
+}
+
 onMounted(() => {
   onFilterPages()
 })
@@ -62,12 +55,19 @@ onMounted(() => {
 
 <template>
   <v-navigation-drawer
-    v-model="isDrawerVisible"
-    :persistent="mobile"
-    :temporary="mobile"
-    :permanent="!mobile"
-    width="325"
+    v-model="drawer"
+    :rail="props.rail"
+    :expand-on-hover="props.expandOnHover"
+    permanent
+    @click="handleDrawerClick"
+    floating
   >
+    <v-list class="mt-1">
+      <v-list-item :prepend-avatar="logo"
+        ><strong class="text-h5 font-weight-black">VZStellar</strong></v-list-item
+      >
+    </v-list>
+
     <v-list density="compact" nav>
       <v-list-item
         prepend-icon="mdi-view-dashboard"

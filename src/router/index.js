@@ -34,6 +34,11 @@ router.beforeEach(async (to) => {
     const userRole = authStore.userRole
     console.log('User Role:', userRole) // Debugging line
 
+    // Allow access to forbidden and not-found pages
+    if (to.name === 'forbidden' || to.name === 'not-found') {
+      return true
+    }
+
     // Redirect to dashboard if the role is not 'User' and the route is not 'account-settings'
     if (userRole !== 'User' && to.name !== 'dashboard' && to.name !== 'account-settings') {
       return { name: 'dashboard' }
