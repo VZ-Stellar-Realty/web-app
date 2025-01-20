@@ -1,13 +1,15 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useThemeStore } from '@/stores/themeStore'
+import { usePropertiesStore } from '@/stores/properties'
 import { getMoneyText } from '@/utils/helpers.js'
 import listingBg from '@/assets/images/listing-bg.png'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import ScrollToTopFab from '@/components/common/ScrollToTopFab.vue'
 
 const themeStore = useThemeStore()
-const loading = ref(true)
+const propertiesStore = usePropertiesStore()
+
 const priceRange = ref([5000, 20000000])
 const currentPage = ref(1)
 const itemsPerPage = 10
@@ -21,41 +23,21 @@ const sliderThumbLabelColor = computed(() => {
 })
 
 onMounted(async () => {
-  // Simulate data fetching
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  loading.value = false
+  await propertiesStore.getProperties()
 })
-
-const items = [
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 1',
-    location: 'Location 1',
-    description: 'This is a description of Property 1.',
-    link: '#',
-  },
-
-  {
-    image: 'https://via.placeholder.com/300',
-    title: 'Property 2',
-    location: 'Location 2',
-    description: 'This is a description of Property 2.',
-    link: '#',
-  },
-]
 
 const paginatedItems = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
-  return items.slice(start, end)
+  return propertiesStore.properties.slice(start, end)
 })
 
-const totalPages = computed(() => Math.ceil(items.length / itemsPerPage))
+const totalPages = computed(() => Math.ceil(propertiesStore.properties.length / itemsPerPage))
 </script>
 
 <template>
   <div>
-    <v-skeleton-loader v-if="loading" type="card"></v-skeleton-loader>
+    <v-skeleton-loader v-if="propertiesStore.loading" type="card"></v-skeleton-loader>
 
     <div v-else>
       <v-img

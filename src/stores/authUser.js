@@ -6,19 +6,17 @@ export const useAuthUserStore = defineStore('authUser', () => {
   // States
   const userData = ref(null)
   const authPages = ref([])
-  const authBranchIds = ref([])
 
   // Getters
   // Computed Properties; Use for getting the state but not modifying its reactive state
   const userRole = computed(() => {
-    return userData.value?.is_admin ? 'Super Administrator' : userData.value.user_role
+    return userData.value?.is_admin ? 'Super Administrator' : userData.value.role
   })
 
   // Reset State Action
   function $reset() {
     userData.value = null
     authPages.value = []
-    authBranchIds.value = []
   }
 
   // Actions
@@ -56,16 +54,6 @@ export const useAuthUserStore = defineStore('authUser', () => {
 
     // Set the retrieved data to state
     if (data.length > 0) authPages.value = data[0].pages.map((p) => p.page)
-  }
-
-  // Retrieve Branch Ids
-  async function getAuthBranchIds() {
-    const { data } = await supabase
-      .from('branches')
-      .select('id')
-      .in('name', userData.value.branch.split(','))
-
-    authBranchIds.value = data.map((b) => b.id)
   }
 
   // Update User Information
@@ -125,12 +113,10 @@ export const useAuthUserStore = defineStore('authUser', () => {
     userData,
     userRole,
     authPages,
-    authBranchIds,
     $reset,
     isAuthenticated,
     getUserInformation,
     getAuthPages,
-    getAuthBranchIds,
     updateUserInformation,
     updateUserImage,
   }

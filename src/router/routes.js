@@ -1,15 +1,38 @@
-// Default
+// Layouts
+const AppLayout = () => import('@/components/layout/AppLayout.vue')
+
+// Auth Pages
+const LoginView = () => import('@/views/auth/LoginView.vue')
+const RegisterView = () => import('@/views/auth/RegisterView.vue')
+
+// Default Pages
 const LandingView = () => import('@/views/LandingView.vue')
+const DashboardView = () => import('@/views/DashboardView.vue')
 const HomeView = () => import('@/views/HomeView.vue')
 const PropertiesView = () => import('@/views/PropertiesView.vue')
 const BrokersView = () => import('@/views/BrokersView.vue')
-// Auth
-const LoginView = () => import('@/views/auth/LoginView.vue')
-const RegisterView = () => import('@/views/auth/RegisterView.vue')
-const AppLayout = () => import('@/components/layout/AppLayout.vue')
+const AccountSettingsView = () => import('@/views/AccountSettingsView.vue')
+
+// Error Pages
+const ForbiddenView = () => import('@/views/errors/ForbiddenView.vue')
+const NotFoundView = () => import('@/views/errors/NotFoundView.vue')
 
 // 👉 Routes
 export const routes = [
+  // Auth Routes
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+    meta: { requiresAuth: false },
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterView,
+    meta: { requiresAuth: false },
+  },
+
   // Default Route
   {
     path: '/',
@@ -39,19 +62,32 @@ export const routes = [
         component: BrokersView,
         meta: { requiresAuth: true, isDefault: true },
       },
+      {
+        path: 'account/settings',
+        name: 'account-settings',
+        component: AccountSettingsView,
+        meta: { requiresAuth: true, isDefault: true },
+      },
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: DashboardView,
+        meta: { requiresAuth: true, isDefault: true },
+      },
     ],
   },
-  // Auth Routes
+
+  // Error Routes
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView,
-    meta: { requiresAuth: false },
+    path: '/forbidden',
+    name: 'forbidden',
+    component: ForbiddenView,
+    meta: { isDefault: true },
   },
   {
-    path: '/register',
-    name: 'register',
-    component: RegisterView,
-    meta: { requiresAuth: false },
+    path: '/:catchAll(.*)',
+    name: 'not-found',
+    component: NotFoundView,
+    meta: { isDefault: true },
   },
 ]

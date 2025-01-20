@@ -5,38 +5,26 @@ import {
   menuItemsNav2,
   menuItemsNav3,
   menuItemsNav4,
-  menuItemsNav5
+  menuItemsNav5,
 } from './sideNavigation'
 import { useAuthUserStore } from '@/stores/authUser'
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 
-const props = defineProps(['isDrawerVisible'])
+const props = defineProps(['toggleRail', 'rail', 'expandOnHover'])
 
-// Utilize pre-defined vue functions
+import logo from '@/assets/images/logo-bgw.png'
+
 const { mobile } = useDisplay()
-
-// Use Pinia Store
 const authStore = useAuthUserStore()
 
-// Load Variables
 const noAccessPages = ref([])
 const editableMenuItemsNav1 = ref([...menuItemsNav1])
 const editableMenuItemsNav2 = ref([...menuItemsNav2])
 const editableMenuItemsNav3 = ref([...menuItemsNav3])
 const editableMenuItemsNav4 = ref([...menuItemsNav4])
 const editableMenuItemsNav5 = ref([...menuItemsNav5])
-const isDrawerVisible = ref(props.isDrawerVisible)
 
-// Watch props if it changes
-watch(
-  () => props.isDrawerVisible,
-  () => {
-    isDrawerVisible.value = props.isDrawerVisible
-  }
-)
-
-// Filter pages base on role
 const onFilterPages = async () => {
   if (authStore.userRole === 'Super Administrator') return
 
@@ -45,7 +33,7 @@ const onFilterPages = async () => {
     { items: editableMenuItemsNav2, title: mainNav[1][0] },
     { items: editableMenuItemsNav3, title: mainNav[2][0] },
     { items: editableMenuItemsNav4, title: mainNav[3][0] },
-    { items: editableMenuItemsNav5, title: mainNav[4][0] }
+    { items: editableMenuItemsNav5, title: mainNav[4][0] },
   ]
 
   menuItems.forEach(({ items, title }) => {
@@ -54,7 +42,8 @@ const onFilterPages = async () => {
   })
 }
 
-// Load Functions during component rendering
+const drawer = ref(true)
+
 onMounted(() => {
   onFilterPages()
 })
@@ -62,12 +51,19 @@ onMounted(() => {
 
 <template>
   <v-navigation-drawer
-    v-model="isDrawerVisible"
-    :persistent="mobile"
-    :temporary="mobile"
-    :permanent="!mobile"
-    width="325"
+    v-model="drawer"
+    :rail="props.rail"
+    :expand-on-hover="props.expandOnHover"
+    :class="{ 'dh-shadow': props.expandOnHover }"
+    permanent
+    floating
   >
+    <v-list class="mt-1">
+      <v-list-item :prepend-avatar="logo"
+        ><strong class="text-h5 font-weight-black">VZStellar</strong></v-list-item
+      >
+    </v-list>
+
     <v-list density="compact" nav>
       <v-list-item
         prepend-icon="mdi-view-dashboard"
@@ -148,3 +144,12 @@ onMounted(() => {
     </v-list>
   </v-navigation-drawer>
 </template>
+
+<style scoped>
+.dh-shadow:hover {
+  box-shadow:
+    0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0px 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+</style>

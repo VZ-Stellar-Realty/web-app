@@ -1,57 +1,49 @@
 <script setup>
-import TopProfileNavigation from './navigation/TopProfileNavigation.vue'
-import { useAuthUserStore } from '@/stores/authUser'
+// Vue and Vuetify imports
 import { onMounted, ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useRoute, useRouter } from 'vue-router'
-import logoNav from '@/assets/images/logo-nav.png'
-import logoNavWhite from '@/assets/images/logo-nav-white.png'
+
+// Custom component imports
+import TopProfileNavigation from './navigation/TopProfileNavigation.vue'
+import SideNavigation from './navigation/SideNavigation.vue'
+
+// Store imports
+import { useAuthUserStore } from '@/stores/authUser'
 import { useThemeStore } from '@/stores/themeStore'
 
-const props = defineProps(['isWithAppBarNavIcon'])
+// Assets imports
+import logoNav from '@/assets/images/logo-nav.png'
+import logoNavWhite from '@/assets/images/logo-nav-white.png'
 
-const emit = defineEmits(['isDrawerVisible'])
-
-const logo = computed(() => (themeStore.theme === 'light' ? logoNav : logoNavWhite))
-
-const { xs, sm, mobile } = useDisplay()
-
+// Stores
 const authStore = useAuthUserStore()
 const themeStore = useThemeStore()
 
+// Reactive variables
 const isLoggedIn = ref(false)
 const isMobileLogged = ref(false)
 const isDesktop = ref(false)
 const appBarColor = ref(themeStore.theme === 'light' ? 'yellow-lighten-3' : 'indigo-darken-1')
 const isFlat = ref(true)
 const elevation = ref(0)
+const rail = ref(true)
+const expandOnHover = ref(true)
+const tab = ref('')
 
-const onToggleTheme = () => {
-  themeStore.toggleTheme()
-}
+// Computed properties
+const logo = computed(() => (themeStore.theme === 'light' ? logoNav : logoNavWhite))
+const isAuthPage = computed(() => route.name === 'login' || route.name === 'register')
+const showSideNavigation = computed(() => authStore.userRole !== 'User')
 
-watch(
-  () => themeStore.theme,
-  (newTheme) => {
-    appBarColor.value =
-      window.scrollY === 0
-        ? newTheme === 'light'
-          ? 'yellow-lighten-3'
-          : 'indigo-darken-1'
-        : 'surface'
-  },
-)
+// Vuetify display
+const { xs, sm, mobile } = useDisplay()
 
-onMounted(async () => {
-  isLoggedIn.value = await authStore.isAuthenticated()
-  isMobileLogged.value = mobile.value && isLoggedIn.value
-  isDesktop.value = !mobile.value && (isLoggedIn.value || !isLoggedIn.value)
-})
-
+// Route and Router
 const route = useRoute()
 const router = useRouter()
-const tab = ref(route.name)
 
+// Navigation items
 const items = [
   { text: 'Home', value: 'home', route: '/home' },
   { text: 'Properties', value: 'properties', route: '/properties' },
@@ -59,18 +51,10 @@ const items = [
   { text: 'About Us', value: 'about', route: '/about' },
 ]
 
-const onTabChange = (newTab) => {
-  const selectedTab = items.find((item) => item.value === newTab)
-  if (selectedTab) {
-    router.push(selectedTab.route)
-  }
+// Methods
+const onToggleTheme = () => {
+  themeStore.toggleTheme()
 }
-
-watch(route, () => {
-  tab.value = route.name
-})
-
-const isAuthPage = computed(() => route.name === 'login' || route.name === 'register')
 
 const handleScroll = () => {
   if (window.scrollY === 0) {
@@ -84,6 +68,42 @@ const handleScroll = () => {
   }
 }
 
+const toggleRail = () => {
+  rail.value = !rail.value
+  expandOnHover.value = rail.value
+}
+
+const onTabChange = (newTab) => {
+  const selectedTab = items.find((item) => item.value === newTab)
+  if (selectedTab) {
+    router.push(selectedTab.route)
+  }
+}
+
+// Watchers
+watch(
+  () => themeStore.theme,
+  (newTheme) => {
+    appBarColor.value =
+      window.scrollY === 0
+        ? newTheme === 'light'
+          ? 'yellow-lighten-3'
+          : 'indigo-darken-1'
+        : 'surface'
+  },
+)
+
+watch(route, () => {
+  tab.value = route.name
+})
+
+// Lifecycle hooks
+onMounted(async () => {
+  isLoggedIn.value = await authStore.isAuthenticated()
+  isMobileLogged.value = mobile.value && isLoggedIn.value
+  isDesktop.value = !mobile.value && (isLoggedIn.value || !isLoggedIn.value)
+})
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })
@@ -92,22 +112,22 @@ onMounted(() => {
 <template>
   <v-responsive>
     <v-app :theme="themeStore.theme">
+      <SideNavigation
+        v-if="showSideNavigation"
+        :toggleRail="toggleRail"
+        :rail="rail"
+        :expandOnHover="expandOnHover"
+      />
+
+      <!-- App bar if role is 'User' -->
       <v-app-bar
-        v-if="!isAuthPage && isLoggedIn"
+        v-if="!isAuthPage && isLoggedIn && authStore.userRole === 'User'"
         class="px-16"
         :color="appBarColor"
         :flat="isFlat"
         :elevation="elevation"
         v-scroll="handleScroll"
       >
-        <v-app-bar-nav-icon
-          v-if="props.isWithAppBarNavIcon"
-          icon="mdi-menu"
-          :theme="themeStore.theme"
-          @click="emit('isDrawerVisible')"
-        >
-        </v-app-bar-nav-icon>
-
         <v-app-bar-title class="pt-2 ps-2">
           <v-img :src="logo" width="130"></v-img>
         </v-app-bar-title>
@@ -136,12 +156,36 @@ onMounted(() => {
         <TopProfileNavigation v-if="isLoggedIn"></TopProfileNavigation>
       </v-app-bar>
 
-      <slot name="side-navigation"></slot>
+      <!-- App bar if role is not 'User' -->
+      <v-app-bar
+        v-else-if="!isAuthPage && isLoggedIn && authStore.userRole !== 'User'"
+        class="px-5"
+        flat
+      >
+        <v-app-bar-nav-icon icon="mdi-menu" :theme="themeStore.theme" @click.stop="toggleRail">
+        </v-app-bar-nav-icon>
+
+        <v-spacer></v-spacer>
+
+        <v-btn
+          class="me-1"
+          :icon="themeStore.theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+          variant="elevated"
+          elevation="6"
+          size="small"
+          slim
+          @click="onToggleTheme"
+        ></v-btn>
+
+        <TopProfileNavigation v-if="isLoggedIn"></TopProfileNavigation>
+      </v-app-bar>
 
       <v-main>
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
       </v-main>
     </v-app>
   </v-responsive>
