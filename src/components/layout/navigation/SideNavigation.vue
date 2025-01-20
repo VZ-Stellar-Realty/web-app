@@ -8,7 +8,7 @@ import {
   menuItemsNav5,
 } from './sideNavigation'
 import { useAuthUserStore } from '@/stores/authUser'
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 
 const props = defineProps(['toggleRail', 'rail', 'expandOnHover'])
@@ -44,10 +44,6 @@ const onFilterPages = async () => {
 
 const drawer = ref(true)
 
-const handleDrawerClick = () => {
-  props.toggleRail()
-}
-
 onMounted(() => {
   onFilterPages()
 })
@@ -59,7 +55,6 @@ onMounted(() => {
     :rail="props.rail"
     :expand-on-hover="props.expandOnHover"
     permanent
-    @click="handleDrawerClick"
     floating
   >
     <v-list class="mt-1">
