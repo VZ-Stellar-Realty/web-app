@@ -20,13 +20,5 @@ const onThemeUpdate = (value) => {
 </script>
 
 <template>
-  <AppLayout :is-with-app-bar-nav-icon="true" @theme="onThemeUpdate">
-    <template #content>
-      <v-container fluid>
-        <v-row>
-          <v-col cols="12"> hello! </v-col>
-        </v-row>
-      </v-container>
-    </template>
-  </AppLayout>
+  <v-container> LOW </v-container>
 </template>

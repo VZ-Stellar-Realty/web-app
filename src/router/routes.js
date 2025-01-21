@@ -13,6 +13,10 @@ const PropertiesView = () => import('@/views/PropertiesView.vue')
 const BrokersView = () => import('@/views/BrokersView.vue')
 const AccountSettingsView = () => import('@/views/AccountSettingsView.vue')
 
+// User Pages
+const UsersView = () => import('@/views/system/manage-users/UsersView.vue')
+const UserRolesView = () => import('@/views/system/manage-users/UserRolesView.vue')
+
 // Error Pages
 const ForbiddenView = () => import('@/views/errors/ForbiddenView.vue')
 const NotFoundView = () => import('@/views/errors/NotFoundView.vue')
@@ -73,6 +77,20 @@ export const routes = [
         name: 'dashboard',
         component: DashboardView,
         meta: { requiresAuth: true, isDefault: true },
+      },
+
+      // User Routes
+      {
+        path: '/manage/users',
+        name: 'manage-users',
+        component: UsersView,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/manage/user/roles',
+        name: 'manage-user-roles',
+        component: UserRolesView,
+        meta: { requiresAuth: true },
       },
     ],
   },

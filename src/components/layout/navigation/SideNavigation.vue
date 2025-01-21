@@ -71,8 +71,6 @@ onMounted(() => {
         to="/dashboard"
       ></v-list-item>
 
-      <v-divider></v-divider>
-
       <v-list-group :key="i" v-for="([title, icon], i) in mainNav">
         <template #activator="{ props }" v-if="!noAccessPages.includes(title)">
           <v-list-item v-bind="props" :prepend-icon="icon" :title="title"></v-list-item>
@@ -133,14 +131,6 @@ onMounted(() => {
           ></v-list-item>
         </template>
       </v-list-group>
-
-      <v-divider></v-divider>
-
-      <v-list-item
-        prepend-icon="mdi-wrench"
-        title="Account Settings"
-        to="/account/settings"
-      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>

@@ -50,27 +50,74 @@ export const useUserRolesStore = defineStore('userRoles', () => {
 
   // Delete User Roles
   async function deleteUserRole(id) {
-    return await supabase.from('user_roles').delete().eq('id', id)
-  }
-
-  // Update User Roles Pages
-  async function updateUserRolePages(id, pages) {
-    const { error: deleteError } = await supabase
+    // Delete related entries in user_role_pages
+    const { error: deletePagesError } = await supabase
       .from('user_role_pages')
       .delete()
       .eq('user_role_id', id)
 
-    if (deleteError) return { error: deleteError }
+    if (deletePagesError) {
+      console.error('Error deleting related pages:', deletePagesError)
+      return { error: deletePagesError }
+    }
 
-    const pageData = pages.map((page) => ({ page, user_role_id: id }))
+    // Delete the user role
+    const { error: deleteRoleError } = await supabase.from('user_roles').delete().eq('id', id)
 
-    const { data, error: insertError } = await supabase
-      .from('user_role_pages')
-      .insert(pageData)
-      .select()
+    if (deleteRoleError) {
+      console.error('Error deleting user role:', deleteRoleError)
+      return { error: deleteRoleError }
+    }
 
-    return { data, error: insertError }
+    return { error: null }
   }
 
-  return { userRoles, $reset, getUserRoles, addUserRole, updateUserRole, deleteUserRole }
+  // Update User Roles Pages
+  async function updateUserRolePages(id, pages) {
+    // Retrieve existing pages for the role
+    const { data: existingPages } = await supabase
+      .from('user_role_pages')
+      .select('page')
+      .eq('user_role_id', id)
+
+    const existingPageSet = new Set((existingPages || []).map((p) => p.page))
+
+    // Insert new pages
+    const pagesToAdd = pages.filter((page) => !existingPageSet.has(page))
+    if (pagesToAdd.length > 0) {
+      await supabase
+        .from('user_role_pages')
+        .insert(pagesToAdd.map((page) => ({ user_role_id: id, page })))
+    }
+
+    // Delete removed pages
+    const pagesToDelete = (existingPages || []).filter((p) => !pages.includes(p.page))
+    if (pagesToDelete.length > 0) {
+      console.log(
+        'Pages to delete:',
+        pagesToDelete.map((p) => p.page),
+      ) // Debugging statement
+      const { error } = await supabase
+        .from('user_role_pages')
+        .delete()
+        .in(
+          'page',
+          pagesToDelete.map((p) => p.page),
+        )
+        .eq('user_role_id', id)
+      if (error) {
+        console.error('Error deleting pages:', error) // Debugging statement
+      }
+    }
+  }
+
+  return {
+    userRoles,
+    $reset,
+    getUserRoles,
+    addUserRole,
+    updateUserRole,
+    deleteUserRole,
+    updateUserRolePages,
+  }
 })
